@@ -1,99 +1,96 @@
 package com.mg.RobotSimulator;
 
 public class Robot {
-    private int X;
-    private int Y;
-    private String F;
+    private int X = -1;
+    private int Y = -1;
+    private Direction F;
 
+    public enum Direction {
+        NORTH, EAST, SOUTH, WEST
+    }
 
     public Robot(int x, int y, String f) {
-        this.X = x;
-        this.Y = y;
-        this.F = f;
+        if (isValidPosition(x, y, f)) {
+            this.X = x;
+            this.Y = y;
+            this.F = Direction.valueOf(f);
+        }
 
     }
 
     void moveRobot() {
         switch (F) {
-            case "NORTH":
+            case NORTH:
                 Y = Math.min(Y + 1, 4);
                 break;
-            case "EAST":
+            case EAST:
                 X = Math.min(X + 1, 4);
                 break;
-            case "SOUTH":
+            case SOUTH:
                 Y = Math.max(Y - 1, 0);
                 break;
-            case "WEST":
+            case WEST:
                 X = Math.max(X - 1, 0);
                 break;
         }
     }
 
-    void moveLeft() {
+    void turnLeft() {
         switch (F) {
-            case "NORTH":
-                F = "WEST";
+            case NORTH:
+                F = Direction.WEST;
                 break;
-            case "EAST":
-                F = "NORTH";
+            case EAST:
+                F = Direction.NORTH;
                 break;
-            case "SOUTH":
-                F = "EAST";
+            case SOUTH:
+                F = Direction.EAST;
                 break;
-            case "WEST":
-                F = "SOUTH";
+            case WEST:
+                F = Direction.SOUTH;
                 break;
         }
     }
 
-    void moveRight() {
+    void turnRight() {
         switch (F) {
-            case "NORTH":
-                F = "EAST";
+            case NORTH:
+                F = Direction.EAST;
                 break;
-            case "EAST":
-                F = "SOUTH";
+            case EAST:
+                F = Direction.SOUTH;
                 break;
-            case "SOUTH":
-                F = "WEST";
+            case SOUTH:
+                F = Direction.WEST;
                 break;
-            case "WEST":
-                F = "NORTH";
+            case WEST:
+                F = Direction.NORTH;
                 break;
         }
     }
+
 
     boolean isValidPosition(int x, int y, String f) {
         if (x < 0 || x > 4 || y < 0 || y > 4)
             return false;
-        if (!f.equals("NORTH") || !f.equals("EAST") || !f.equals("SOUTH") || !f.equals("WEST"))
+        try {
+            Direction.valueOf(f);
             return true;
-        return false;
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
     }
 
     public int getX() {
         return X;
     }
 
-    public void setX(int x) {
-        this.X = x;
-    }
-
     public int getY() {
         return Y;
     }
 
-    public void setY(int y) {
-        this.Y = y;
-    }
-
-    public String getF() {
+    public Direction getF() {
         return F;
-    }
-
-    public void setF(String f) {
-        this.F = f;
     }
 
     @Override

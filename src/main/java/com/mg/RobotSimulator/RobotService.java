@@ -11,7 +11,7 @@ public class RobotService {
         String resultPosition = "";
         String[] commands = commandsString.split("\n");
 
-        Robot robot = new Robot(-1,-1,"");
+        Robot robot = new Robot(-1, -1, "");
 
         for (int i = 0; i < commands.length; i++) {
 
@@ -21,9 +21,7 @@ public class RobotService {
                     int X = Integer.parseInt(commandsSplit[0]);
                     int Y = Integer.parseInt(commandsSplit[1]);
                     String F = commandsSplit[2];
-                    if (robot.isValidPosition(X, Y, F))
-                        robot = new Robot(X, Y, F);
-                    else resultMessage = "Invalid format of PLACE command";
+                    robot = new Robot(X, Y, F);
                 } catch (Exception e) {
                     resultMessage = "Invalid format of PLACE command";
                 }
@@ -33,10 +31,10 @@ public class RobotService {
                         robot.moveRobot();
                         break;
                     case "LEFT":
-                        robot.moveLeft();
+                        robot.turnLeft();
                         break;
                     case "RIGHT":
-                        robot.moveRight();
+                        robot.turnRight();
                         break;
                     case "REPORT":
                         resultPosition = resultPosition + robot.toString() + "\n";
@@ -44,8 +42,7 @@ public class RobotService {
                     default:
                         resultMessage = "";
                 }
-            }
-            else resultMessage = "";
+            } else resultMessage = "";
         }
         if (!resultPosition.trim().isEmpty()) return resultPosition.trim();
         else return resultMessage;
